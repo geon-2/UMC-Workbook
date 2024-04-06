@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2 id="number">0</h2>
+    <button id="increase">+1</button>
+    <button id="decrease">-1</button>
+
+    <script type="text/javascript">
+        let number = document.getElementById("number")
+        let increase = document.getElementById("increase")
+        let decrease = document.getElementById("decrease")
+
+        increase.onclick = e => number.innerText++
+        decrease.onclick = e => number.innerText--
+
+
+    </script>
+</body>
+</html>
