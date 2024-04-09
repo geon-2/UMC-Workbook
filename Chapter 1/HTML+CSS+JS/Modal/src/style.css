@@ -31,8 +31,6 @@ button:active {
 .modal_body {
     background: #fff;
     width: 50%;
-    display: flex;
-    flex-wrap: wrap;
     padding: 30px;
     border-radius: 5px;
 }
@@ -41,11 +39,12 @@ button:active {
     font-weight: bolder;
 }
 
-.modal > div :not(button) {
+.modal > div > :not(:last-child) {
     width: 100%;
     margin-bottom: 10px;
 }
 
-#modal-close-button {
-    justify-self: flex-end;
+.justify-content-end {
+    display: flex;
+    justify-content: flex-end;
 }
