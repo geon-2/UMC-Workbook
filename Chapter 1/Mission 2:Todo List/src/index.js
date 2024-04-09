@@ -19,17 +19,14 @@ class Element {
     }
 }
 
-class Cookie {
-    static setCookie (key, value, expires) {
+class Storage {
+    static setData (key, value, expires) {
         value = JSON.stringify(value);
-        let date = new Date()
-        date.setTime(date.getTime() + expires*24*60*60*1000)
-        document.cookie = key + "=" + value + ";expires=" + date.toUTCString() + ";path=/"
+        window.localStorage.setItem(key, value);
     }
 
-    static getCookie (key) {
-        let value = JSON.parse(document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)'));
-        return value ? value[2] : [];
+    static getData (key) {
+        return JSON.parse(window.localStorage.getItem(key)) || [];
     }
 }
 
@@ -50,15 +47,15 @@ const createTaskElement = (title, idx = null, type = true) => {
         )
         complete.push(planning[idx])
         if (idx > -1) planning.splice(idx, 1)
-        Cookie.setCookie('planning', planning, 20)
-        Cookie.setCookie('complete', complete, 20)
+        Storage.setData('planning', planning, 2)
+        Storage.setData('complete', complete, 2)
     }
 
     const removeTask = (e) => {
         const currentTarget = e.target.parentNode
         const idx = Array.from(currentTarget.parentNode.children).indexOf(currentTarget)
         if (idx > -1) complete.splice(idx, 1)
-        Cookie.setCookie('complete', complete, 20)
+        Storage.setData('complete', complete, 2)
         Element.removeElement('#complete-task .task', idx)
     }
 
@@ -84,15 +81,15 @@ const createTaskElement = (title, idx = null, type = true) => {
 
 const rendering = () => {
     const planningTask = document.querySelector('#planning-task > .task-list')
-    for (let idx in planning) Element.appendElement(planningTask, createTaskElement(planning[idx], idx))
+    for (let idx in planning) Element.appendElement(planningTask, [createTaskElement(planning[idx], idx)])
 
     const completeTask = document.querySelector('#complete-task > .task-list')
-    for (let idx in complete) Element.appendElement(completeTask, createTaskElement(complete[idx], idx))
+    for (let idx in complete) Element.appendElement(completeTask, [createTaskElement(complete[idx], idx)], false)
 }
 
 window.onload = _ => {
-    planning = Cookie.getCookie('planning')
-    complete = Cookie.getCookie('complete')
+    planning = Storage.getData('planning')
+    complete = Storage.getData('complete')
     rendering()
 
     document.getElementById('plan-add-form').addEventListener('submit', function (e) {
@@ -104,6 +101,7 @@ window.onload = _ => {
             [createTaskElement(title)]
         )
         planning.push(title)
-        Cookie.setCookie('planning', planning, 20)
+        Storage.setData('planning', planning, 2)
+        e.target.children[0].value = "";
     })
 }
