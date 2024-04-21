@@ -1,0 +1,68 @@
+body > * {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+header > #search-form-block {
+    margin: 0 auto;
+    width: 700px;
+    height: 60px;
+    border: 1px solid #02c75a;
+    border-radius: 30px;
+    display: flex;
+    padding: 0 20px;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+header #main-logo {
+    width: 25px;
+    height: 25px;
+}
+
+header #main-logo > img {
+    width: 100%;
+}
+
+header #search-form {
+    height: 40px;
+    display: flex;
+    width: 600px;
+}
+
+header #search-form > input {
+    height: 100%;
+    border: none;
+    font-size: 20px;
+    line-height: 40px;
+    outline: none;
+    width: 90%;
+}
+
+header #search-form > input::placeholder {
+    color: #eee;
+}
+
+header #search-form > input::-webkit-input-placeholder {
+    color: #eee;
+}
+
+header #search-form > input::-moz-placeholder {
+    color: #eee;
+}
+
+header #search-form > input::-ms-input-placeholder {
+    color: #eee;
+}
+
+header #search-form > button {
+    background: none;
+    border: none;
+    outline: none;
+    width: 50px;
+}
+
+header #search-form > button > img {
+    max-width: 100%;
+}

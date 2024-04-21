@@ -78,6 +78,7 @@ h1 {
     margin-bottom: 60px;
     display: flex;
     justify-content: center;
+    border-bottom: 3px solid #d8dfee;
 }
 
 .task-area > h3 > span {
