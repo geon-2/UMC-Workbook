@@ -8,7 +8,7 @@ import RootPage from './routes/root'
 import SignUpPage from './routes/signup-page'
 import PosterPage from './routes/poster-page'
 import ErrorPage from './error-page'
-import './index.css'
+import GlobalStyles from './GlobalStyles';
 
 const routes = [
 	{
@@ -32,6 +32,7 @@ const router = createBrowserRouter(routes, {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
+		<GlobalStyles />
 		<RouterProvider router={router} />
 	</React.StrictMode>,
 );

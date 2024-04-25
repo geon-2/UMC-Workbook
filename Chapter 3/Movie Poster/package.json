@@ -20,7 +20,8 @@
 		"react-lines-ellipsis": "^0.15.4",
 		"react-router-dom": "^6.22.3",
 		"sort-by": "^0.0.2",
-		"styled-components": "^6.1.8"
+		"styled-components": "^6.1.8",
+		"styled-reset": "^4.5.2"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.1.1",
