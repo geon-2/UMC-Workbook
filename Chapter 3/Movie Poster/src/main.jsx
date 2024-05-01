@@ -8,7 +8,7 @@ import RootPage from './routes/root'
 import SignUpPage from './routes/signup-page'
 import PosterPage from './routes/poster-page'
 import ErrorPage from './error-page'
-import GlobalStyles from './GlobalStyles';
+import GlobalStyles from './style/GlobalStyles';
 
 const routes = [
 	{
