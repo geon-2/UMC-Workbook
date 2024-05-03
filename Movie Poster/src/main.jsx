@@ -1,17 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import {
 	createBrowserRouter,
 	RouterProvider
-} from 'react-router-dom';
+} from 'react-router-dom'
 import RootPage from './routes/root'
 import PosterPage from './routes/poster-page'
-import GlobalStyles from './style/GlobalStyles';
+import SignupPage from './routes/signup-page'
+import GlobalStyles from './style/GlobalStyles'
 
 const routes = [
 	{
 		path: "/",
 		element: <RootPage />,
+	},
+	{
+		path: '/signup',
+		element: <SignupPage />
 	},
 	{
 		path: '/list/:sortBy',
