@@ -54,7 +54,7 @@ function NavigationBar() {
 	
 	return (
 		<Header>
-			<Home>UMC Movie</Home>
+			<Home to="/">UMC Movie</Home>
 			<Nav>
 				{linkList.map((item, index) => <StyledLink key={index} to={item.url} isActive={isActive(item.url)}>{item.text}</StyledLink> )}
 			</Nav>
