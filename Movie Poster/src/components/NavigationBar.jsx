@@ -8,7 +8,7 @@ const FlexList = `
 `;
 
 const Header = styled.header`
-    	${FlexList}
+	${FlexList}
 	width: 100%;
 	height: 5rem;
 	background: #171B39;
