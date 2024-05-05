@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import NavigationBar from '../components/NavigationBar'
+import Body from '../components/Body';
 
 const MainText = styled.div`
     height: 30rem;
@@ -49,8 +49,7 @@ const SearchInputForm = styled.form`
 
 function RootPage () {
     return (
-        <>
-            <NavigationBar />
+        <Body>
             <MainText>환영합니다</MainText>
             <MainSection>
                 <p>📽️ Find your movies !</p>
@@ -58,8 +57,8 @@ function RootPage () {
                     <input type='text' name='searchKey' />
                     <button type='submit'><img src="https://super.so/icon/dark/search.svg" alt="search" /></button>
                 </SearchInputForm>
-            </MainSection>
-        </>
+            </MainSection> 
+        </Body>
     )
 }
 

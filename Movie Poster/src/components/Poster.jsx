@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import LinesEllipsis from 'react-lines-ellipsis';
+import { useNavigate } from 'react-router-dom';
 
 const PosterBlock = styled.div`
     min-width: 20rem;
@@ -59,8 +60,12 @@ const InfoBlock = styled.div`
 `
 
 function Poster (props) {
+    const navigate = useNavigate();
+
     return (
-        <PosterBlock>
+        <PosterBlock onClick={() => {
+            navigate(`/movie/${props.title}`, { state: props.movie_id });
+        }}>
             <PosterImage style={{backgroundImage: "url(https://image.tmdb.org/t/p/w500"+props.img_path+")"}} />
             <MainInfo>
                 <p className="title">{props.title}</p>
@@ -82,6 +87,7 @@ function Poster (props) {
 }
 
 Poster.propTypes = {
+    movie_id: PropTypes.number,
     img_path: PropTypes.string,
     title: PropTypes.string,
     vote: PropTypes.number,

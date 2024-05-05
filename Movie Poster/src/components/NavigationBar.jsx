@@ -49,7 +49,6 @@ function NavigationBar() {
 	}
 	
 	const linkList = [
-		{ url: '/', text: '회원가입' },
 		{ url: '/list/popular', text: 'Popular' },
 		{ url: '/list/now_playing', text: 'Now Playing' },
 		{ url: '/list/top_rated', text: 'Top Rated' },
@@ -58,9 +57,9 @@ function NavigationBar() {
 	
 	return (
 		<Header>
-			<Home>UMC Movie</Home>
+			<Home to="/">UMC Movie</Home>
 			<Nav>
-				<Link to="/" style={StyledLink} isActive={() => {}} onClick={(e) => {
+				<StyledLink to="/" isActive={isActive("/signup")} onClick={(e) => {
 					e.preventDefault();
 					if (member) {
 						setCookie('state','');
@@ -69,7 +68,7 @@ function NavigationBar() {
 						setCookie('state','1');
 						setMember(true)
 					}
-				}}>{member ? "로그아웃" : "로그인"}</Link>
+				}}>{member ? "로그아웃" : "로그인"}</StyledLink>
 				{linkList.map((item, index) => <StyledLink key={index} to={item.url} isActive={isActive(item.url)}>{item.text}</StyledLink> )}
 			</Nav>
 		</Header>

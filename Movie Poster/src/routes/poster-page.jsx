@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
-import NavigationBar from "../components/NavigationBar";
-import Poster from "../components/Poster";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import styled from "styled-components";
+import Body from "../components/Body";
+import Poster from "../components/Poster";
 
-const PosterList = styled.section`
+const PosterList = styled.div`
     margin: 0 auto;
     margin-top: 20px;
     width: 60%;
@@ -79,8 +79,7 @@ function PosterPage() {
     }, [sortBy, navigate])
 
     return (
-        <>
-            <NavigationBar />
+        <Body>
             {loading ? (
                 <SpinLoader />
             ) : (
@@ -92,11 +91,12 @@ function PosterPage() {
                             title={movie.title}
                             vote={movie.vote_average}
                             overview={movie.overview}
+                            movie_id={movie.id}
                         />
                     )}
                 </PosterList>
             )}
-        </>
+        </Body>
     )
 }
 

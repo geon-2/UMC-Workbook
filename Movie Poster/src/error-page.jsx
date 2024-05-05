@@ -1,39 +1,51 @@
-import { useRouteError } from "react-router-dom";
+import { Link, useRouteError } from "react-router-dom";
 import styled from "styled-components";
-import './index.css'
 
-const ErrorText = `
-    text-align: center;
+const ErrorBody = styled.section`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     color: #fff;
-`
+`;
 
 const ErrorTitle = styled.h1`
-    ${ErrorText}
-    font-size: 8rem;
+    font-size: 6rem;
     font-weight: 600;
-    padding: 6rem 2rem;
-`
+    margin-bottom: 5rem;
+`;
+
 const ErrorContent = styled.p`
-    ${ErrorText}
-    font-size: 3rem;
-    margin-bottom: 2rem;
-`
+    font-size: 2rem;
+    margin-bottom: 3rem;
+`;
 
 const ErrorCode = styled.p`
-    ${ErrorText}
-    color: red;
     font-size: 1.5rem;
-`
+    margin-bottom: 2rem;
+`;
+
+const BackLink = styled(Link)`
+    display: block;
+    font-size: 2rem;
+    margin-top: 2rem;
+`;
 
 export default function ErrorPage() {
     const error = useRouteError();
     console.error(error);
 
     return (
-        <>
+        <ErrorBody>
             <ErrorTitle>Oops!</ErrorTitle>
-            <ErrorContent>Sorry, an unexpected error has occurred.</ErrorContent>
-            <ErrorCode>{error.status} {error.statusText || error.message}</ErrorCode>
-        </>
+            <ErrorContent>예상치 못한 에러가 발생했습니다 : '^'</ErrorContent>
+            <ErrorCode>{error.statusText || error.message}</ErrorCode>
+            <BackLink to="/">메인으로 이동하기</BackLink>
+        </ErrorBody>
     )
 }
