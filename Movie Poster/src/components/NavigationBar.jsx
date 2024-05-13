@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import { useState } from 'react'
+// import { useCookies } from 'react-cookie';
+// import { useState } from 'react'
 
 const FlexList = `
 	display: flex;
@@ -40,8 +40,6 @@ const StyledLink = styled(Link).attrs(props => ({
 `
 
 function NavigationBar() {
-	const [cookies, setCookie] = useCookies(['state']);
-	const [member, setMember] = useState(Boolean(cookies.state))
 	const location = useLocation();
 	
 	const isActive = (path) => {
@@ -49,6 +47,7 @@ function NavigationBar() {
 	}
 	
 	const linkList = [
+		{ url: '/signup', text: '회원가입' },
 		{ url: '/list/popular', text: 'Popular' },
 		{ url: '/list/now_playing', text: 'Now Playing' },
 		{ url: '/list/top_rated', text: 'Top Rated' },
@@ -59,16 +58,6 @@ function NavigationBar() {
 		<Header>
 			<Home to="/">UMC Movie</Home>
 			<Nav>
-				<StyledLink to="/" isActive={isActive("/signup")} onClick={(e) => {
-					e.preventDefault();
-					if (member) {
-						setCookie('state','');
-						setMember(false)
-					} else {
-						setCookie('state','1');
-						setMember(true)
-					}
-				}}>{member ? "로그아웃" : "로그인"}</StyledLink>
 				{linkList.map((item, index) => <StyledLink key={index} to={item.url} isActive={isActive(item.url)}>{item.text}</StyledLink> )}
 			</Nav>
 		</Header>
