@@ -7,6 +7,7 @@ import {
 import GlobalStyles from './style/GlobalStyles';
 import RootPage from './routes/root'
 import PosterPage from './routes/poster-page'
+import SignUpPage from './routes/signup-page'
 import ErrorPage from './error-page'
 import MovieDetailPage from './routes/movie-detail-page';
 
@@ -23,6 +24,10 @@ const routes = [
 			{
 				path: '/movie/:movie_name',
 				element: <MovieDetailPage />
+			},
+			{
+				path: '/signup',
+				element: <SignUpPage />
 			}
 		]
 	}

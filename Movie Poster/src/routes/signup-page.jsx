@@ -131,13 +131,13 @@ function SignUpPage() {
     useEffect(() => {
         formData.map((data, idx) => {
             if (data.success === false) {
-                valid_obj[idx].validList.map((valid, idx) => {
-                    if (valid.re.test(data.value)) {
-                        setFormData({
-                            ...formData,
-                        })
-                    }
-                })
+                // valid_obj[idx].validList.map((valid, idx) => {
+                //     if (valid.re.test(data.value)) {
+                //         setFormData({
+                //             ...formData,
+                //         })
+                //     }
+                // })
             }
         })
     }, [formData])
