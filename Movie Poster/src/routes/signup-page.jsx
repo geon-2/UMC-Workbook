@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import Body from '../components/body';
+import Body from '../components/Body';
 
 const Form = styled.form`
     diplay: flex;
