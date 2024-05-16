@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-// import { useCookies } from 'react-cookie';
-// import { useState } from 'react'
 
 const FlexList = `
 	display: flex;
@@ -29,11 +27,11 @@ const Home = styled(Link)`
 `
 
 const StyledLink = styled(Link).attrs(props => ({
-	isActive: props.isActive
+	isactive: props.isactive
 }))`
 	font-size: 1.5rem;
-	font-weight: ${({ isActive }) => isActive ? '600' : '400'};
-	color: ${({ isActive }) => isActive ? 'yellow' : '#fff'};
+	font-weight: ${({ isactive }) => isactive ? '600' : '400'};
+	color: ${({ isactive }) => isactive ? 'yellow' : '#fff'};
 	&:hover {
 	font-weight: 800;
 	}
@@ -42,7 +40,7 @@ const StyledLink = styled(Link).attrs(props => ({
 function NavigationBar() {
 	const location = useLocation();
 	
-	const isActive = (path) => {
+	const isactive = (path) => {
 		return location.pathname === path;
 	}
 	
@@ -58,7 +56,7 @@ function NavigationBar() {
 		<Header>
 			<Home to="/">UMC Movie</Home>
 			<Nav>
-				{linkList.map((item, index) => <StyledLink key={index} to={item.url} isActive={isActive(item.url)}>{item.text}</StyledLink> )}
+				{linkList.map((item, index) => <StyledLink key={index} to={item.url} isactive={isactive(item.url)}>{item.text}</StyledLink> )}
 			</Nav>
 		</Header>
 	);
