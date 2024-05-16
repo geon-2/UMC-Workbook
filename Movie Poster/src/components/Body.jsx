@@ -31,12 +31,12 @@ const Section = styled.section`
     }
 `
 
-function Body (props) {
+function Body ({ bgImage, children }) {
     return (
         <>
             <NavigationBar />
-            <Section bg={props.bgImage}>
-                {props.children}
+            <Section bg={bgImage}>
+                {children}
             </Section>
         </>
     )

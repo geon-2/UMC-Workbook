@@ -1,5 +1,8 @@
+import { useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import Body from '../components/Body';
+import SearchList from '../components/SearchList';
 
 const MainText = styled.div`
     height: 30rem;
@@ -11,6 +14,7 @@ const MainText = styled.div`
 `;
 
 const MainSection = styled.section`
+    overflow-y: auto;
     & > p {
         margin: 5rem 0;
         text-align: center;
@@ -48,16 +52,36 @@ const SearchInputForm = styled.form`
 `;
 
 function RootPage () {
+    const [searchKey, setSearchKey] = useState('');
+    const [searchList, setSearchList] = useState([]);
+
     return (
         <Body>
             <MainText>환영합니다</MainText>
             <MainSection>
                 <p>📽️ Find your movies !</p>
-                <SearchInputForm action='#' method='post'>
-                    <input type='text' name='searchKey' />
-                    <button type='submit'><img src="https://super.so/icon/dark/search.svg" alt="search" /></button>
+                <SearchInputForm method='post' onSubmit={(e) => {
+                    e.preventDefault();
+                    axios.get('https://api.themoviedb.org/3/search/movie', {
+                        params: {
+                            'query': searchKey,
+                            'language': 'ko',
+                            'api_key': import.meta.env.VITE_TMOB_API_KEY,
+                            'include_adult': false,
+                        }
+                    })
+                    .then(response => {
+                        setSearchList(response.data.results);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                    });
+                }}>
+                    <input type='text' name='searchKey' value={searchKey} onChange={(e) => setSearchKey(e.target.value)} />
+                    <button type='submit' disabled={searchKey == '' ? true : false}><img src="https://super.so/icon/dark/search.svg" alt="search" /></button>
                 </SearchInputForm>
-            </MainSection> 
+                {searchList.length > 0 ? <SearchList searchList={searchList} /> : null}
+            </MainSection>
         </Body>
     )
 }

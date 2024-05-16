@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import styled from "styled-components";
-import Body from "../components/Body";
+import Body from "../../components/Body";
 
 const DetailCover = styled.div`
     width: 100%;

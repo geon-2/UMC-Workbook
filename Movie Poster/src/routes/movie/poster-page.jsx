@@ -2,8 +2,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import styled from "styled-components";
-import Body from "../components/Body";
-import Poster from "../components/Poster";
+import Body from "../../components/Body";
+import Poster from "../../components/Poster";
 
 const PosterList = styled.div`
     margin: 0 auto;
@@ -45,8 +45,8 @@ function PosterPage() {
             apiUrl,
             { 
                 params: {
-                    'language': 'ko',
-                    'api_key': import.meta.env.VITE_TMOB_API_KEY
+                    language: 'ko',
+                    api_key: import.meta.env.VITE_TMOB_API_KEY
                 },
                 cancelToken: source.token
             }
@@ -54,6 +54,7 @@ function PosterPage() {
         .then(response => {
             setMovies(response.data.results);
             setLoading(false); // 로딩 상태 변경
+            console.log(response.data.results);
         })
         .catch(error => {
             if (axios.isCancel(error)) {
@@ -87,7 +88,7 @@ function PosterPage() {
                     {movies.map((movie, index) => 
                         <Poster
                             key={index}
-                            img_path={movie.backdrop_path}
+                            img_path={movie.poster_path}
                             title={movie.title}
                             vote={movie.vote_average}
                             overview={movie.overview}
