@@ -4,7 +4,7 @@ import LinesEllipsis from 'react-lines-ellipsis';
 import { useNavigate } from 'react-router-dom';
 
 const PosterBlock = styled.div`
-    min-width: 20rem;
+    width: 20rem;
     height: 31rem;
     border-radius: 0.5rem;
     overflow: hidden;

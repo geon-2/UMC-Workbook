@@ -45,8 +45,8 @@ function PosterPage() {
             apiUrl,
             { 
                 params: {
-                    'language': 'ko',
-                    'api_key': import.meta.env.VITE_TMOB_API_KEY
+                    language: 'ko',
+                    api_key: import.meta.env.VITE_TMOB_API_KEY
                 },
                 cancelToken: source.token
             }
@@ -88,7 +88,7 @@ function PosterPage() {
                     {movies.map((movie, index) => 
                         <Poster
                             key={index}
-                            img_path={movie.backdrop_path}
+                            img_path={movie.poster_path}
                             title={movie.title}
                             vote={movie.vote_average}
                             overview={movie.overview}
