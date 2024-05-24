@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import styled from "styled-components";
 import Body from "../../components/Body";
+import Credit from "../../components/Credit";
 
 const DetailCover = styled.div`
     width: 100%;
@@ -80,12 +81,37 @@ const LoadingMsg = styled.div`
     font-weight: 800;
 `
 
+const CreditCover = styled.div`
+    margin: 0 auto;
+    margin-top: 7rem;
+    width: 90%;
+    & > h2 {
+        width: 100%;
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 5rem;
+        color: #fff;
+    }
+
+`
+
+const CreditList = styled.div`
+    width: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+    grid-gap: 5rem;
+`
+
 function MovieDetailPage () {
     const [movie, setMovie] = useState({});
+    const [credits, setCredits] = useState({cast: [], crew: []});
     const [isLoading, setIsLoading] = useState(true);
 
     const { movie_id } = useParams();
     const apiUrl = `https://api.themoviedb.org/3/movie/${movie_id}`;
+    const creditUrl = apiUrl + '/credits';
 
     useEffect(() => {
         const source = axios.CancelToken.source();
@@ -101,8 +127,31 @@ function MovieDetailPage () {
             }
         )
         .then(response => {
+            console.log(response.data)
             setMovie(response.data);
             setIsLoading(false)
+        })
+        .catch(error => {
+            if (axios.isCancel(error)) {
+                console.log('Request canceled:', error.message);
+            } else {
+                console.error('Error fetching data:', error);
+            }
+        })
+
+        axios.get(
+            creditUrl,
+            {
+                params: {
+                    'language': 'ko',
+                    'api_key': import.meta.env.VITE_TMOB_API_KEY
+                }
+
+            }
+        )
+        .then(response => {
+            console.log(response.data)
+            setCredits(response.data);
         })
         .catch(error => {
             if (axios.isCancel(error)) {
@@ -136,8 +185,20 @@ function MovieDetailPage () {
                             <p>{movie.overview || "TMDB에서 제공하는 API에 상세 줄거리 정보가 없습니다."}</p>
                         </DetailInfo>
                     </DetailBlock>
+                    
                 </DetailCover>
             )}
+            <CreditCover>
+                <h2>출연진 및 제작진</h2>
+                <CreditList>                    
+                    {credits.cast.map((credit, index) => (
+                        <Credit key={index} person_id={credit.id} />
+                    ))}
+                    {credits.crew.map((credit, index) => (
+                        <Credit key={index} person_id={credit.id} />
+                    ))}
+                </CreditList>
+            </CreditCover>
         </Body>
     )
 }

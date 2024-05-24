@@ -54,7 +54,7 @@ function PosterPage() {
         .then(response => {
             setMovies(response.data.results);
             setLoading(false); // 로딩 상태 변경
-            console.log(response.data.results);
+            
         })
         .catch(error => {
             if (axios.isCancel(error)) {
