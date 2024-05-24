@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import useDebounce from '../hook/useDebounce';
 import Body from '../components/Body';
 import SearchList from '../components/SearchList';
 
@@ -54,6 +55,24 @@ const SearchInputForm = styled.form`
 function RootPage () {
     const [searchKey, setSearchKey] = useState('');
     const [searchList, setSearchList] = useState([]);
+    const debouncedSearchKey = useDebounce(searchKey, 500);
+
+    useEffect(() => {
+        axios.get('https://api.themoviedb.org/3/search/movie', {
+            params: {
+                'query': debouncedSearchKey,
+                'language': 'ko',
+                'api_key': import.meta.env.VITE_TMOB_API_KEY,
+                'include_adult': false,
+            }
+        })
+        .then(response => {
+            setSearchList(response.data.results);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }, [debouncedSearchKey]);
 
     return (
         <Body>
@@ -61,6 +80,7 @@ function RootPage () {
             <MainSection>
                 <p>📽️ Find your movies !</p>
                 <SearchInputForm method='post' onSubmit={(e) => e.preventDefault()}>
+<<<<<<< HEAD
                     <input type='text' name='searchKey' value={searchKey} onChange={(e) => {
                         setSearchKey(e.target.value)
                         axios.get('https://api.themoviedb.org/3/search/movie', {
@@ -78,9 +98,12 @@ function RootPage () {
                             console.error('Error fetching data:', error);
                         });
                     }} />
+=======
+                    <input type='text' name='searchKey' value={searchKey} onChange={(e) => setSearchKey(e.target.value)} />
+>>>>>>> chapter_6
                     <button type='submit' disabled={searchKey == '' ? true : false}><img src="https://super.so/icon/dark/search.svg" alt="search" /></button>
                 </SearchInputForm>
-                {searchList.length > 0 ? <SearchList searchList={searchList} /> : null}
+                {searchList.length && <SearchList searchList={searchList} />}
             </MainSection>
         </Body>
     )

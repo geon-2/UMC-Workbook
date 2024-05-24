@@ -64,7 +64,7 @@ function Poster (props) {
 
     return (
         <PosterBlock onClick={() => {
-            navigate(`/movie/${props.title}`, { state: props.movie_id });
+            navigate(`/movie/${props.movie_id}`);
         }}>
             <PosterImage style={{backgroundImage: "url(https://image.tmdb.org/t/p/w500"+props.img_path+")"}} />
             <MainInfo>
