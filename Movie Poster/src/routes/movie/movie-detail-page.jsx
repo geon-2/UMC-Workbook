@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import styled from "styled-components";
@@ -69,11 +69,22 @@ const DetailInfo = styled.div`
     }
 `
 
+const LoadingMsg = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #fff;
+    font-weight: 800;
+`
+
 function MovieDetailPage () {
     const [movie, setMovie] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
-    const location = useLocation();
-    const movie_id = location.state;
+    const { movie_id } = useParams();
     const apiUrl = `https://api.themoviedb.org/3/movie/${movie_id}`;
 
     useEffect(() => {
@@ -86,11 +97,12 @@ function MovieDetailPage () {
                     'language': 'ko',
                     'api_key': import.meta.env.VITE_TMOB_API_KEY
                 }
+
             }
         )
         .then(response => {
             setMovie(response.data);
-            console.log(response.data);
+            setIsLoading(false)
         })
         .catch(error => {
             if (axios.isCancel(error)) {
@@ -107,23 +119,25 @@ function MovieDetailPage () {
 
     return (
         <Body bgImage={"https://image.tmdb.org/t/p/w500"+movie.backdrop_path}>
-            <DetailCover>
-                <DetailBlock>
-                    <DetailImage>
-                        <img src={"https://image.tmdb.org/t/p/w500"+movie.poster_path} alt={movie.title} />
-                    </DetailImage>
-                    <DetailInfo>
-                        <h1>{movie.title}</h1>
-                        <h2>
-                            <span>평점</span>
-                            <span>{"⭐️".repeat(~~movie.vote_average)}</span>
-                        </h2>
-                        <h3><span>개봉일</span>{movie.release_date}</h3>
-                        <h4>줄거리</h4>
-                        <p>{movie.overview || "TMDB에서 제공하는 API에 상세 줄거리 정보가 없습니다."}</p>
-                    </DetailInfo>
-                </DetailBlock>
-            </DetailCover>
+            {isLoading ? (<LoadingMsg>데이터를 받아오는 중입니다.</LoadingMsg>) : (
+                <DetailCover>
+                    <DetailBlock>
+                        <DetailImage>
+                            <img src={"https://image.tmdb.org/t/p/w500"+movie.poster_path} alt={movie.title} />
+                        </DetailImage>
+                        <DetailInfo>
+                            <h1>{movie.title}</h1>
+                            <h2>
+                                <span>평점</span>
+                                <span>{"⭐️".repeat(~~movie.vote_average)}</span>
+                            </h2>
+                            <h3><span>개봉일</span>{movie.release_date}</h3>
+                            <h4>줄거리</h4>
+                            <p>{movie.overview || "TMDB에서 제공하는 API에 상세 줄거리 정보가 없습니다."}</p>
+                        </DetailInfo>
+                    </DetailBlock>
+                </DetailCover>
+            )}
         </Body>
     )
 }

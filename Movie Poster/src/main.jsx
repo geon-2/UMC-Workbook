@@ -20,7 +20,7 @@ const routes = [
 		element: <PosterPage />
 	},
 	{
-		path: '/movie/:movie_name',
+		path: '/movie/:movie_id',
 		element: <MovieDetailPage />
 	},
 	{
