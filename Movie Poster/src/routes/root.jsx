@@ -60,24 +60,24 @@ function RootPage () {
             <MainText>환영합니다</MainText>
             <MainSection>
                 <p>📽️ Find your movies !</p>
-                <SearchInputForm method='post' onSubmit={(e) => {
-                    e.preventDefault();
-                    axios.get('https://api.themoviedb.org/3/search/movie', {
+                <SearchInputForm method='post' onSubmit={(e) => e.preventDefault()}>
+                    <input type='text' name='searchKey' value={searchKey} onChange={(e) => {
+                        setSearchKey(e.target.value)
+                        axios.get('https://api.themoviedb.org/3/search/movie', {
                         params: {
-                            'query': searchKey,
+                            'query': e.target.value,
                             'language': 'ko',
                             'api_key': import.meta.env.VITE_TMOB_API_KEY,
                             'include_adult': false,
                         }
-                    })
-                    .then(response => {
-                        setSearchList(response.data.results);
-                    })
-                    .catch(error => {
-                        console.error('Error fetching data:', error);
-                    });
-                }}>
-                    <input type='text' name='searchKey' value={searchKey} onChange={(e) => setSearchKey(e.target.value)} />
+                        })
+                        .then(response => {
+                            setSearchList(response.data.results);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
+                    }} />
                     <button type='submit' disabled={searchKey == '' ? true : false}><img src="https://super.so/icon/dark/search.svg" alt="search" /></button>
                 </SearchInputForm>
                 {searchList.length > 0 ? <SearchList searchList={searchList} /> : null}
