@@ -5,7 +5,7 @@ import Poster from './Poster';
 const ListCover = styled.div`
     overflow-y: auto;
     height: 50rem;
-    width: 95rem;
+    width: 100rem;
     margin: 5rem auto;
     background: #171B39;
     display: grid;
@@ -16,9 +16,9 @@ const ListCover = styled.div`
     }
     &::-webkit-scrollbar {
         width: .5rem;
+        background: transpoarent;
     }
     &::-webkit-scrollbar-thumb {
-        background: transpoarent;
         border-radius: 0.25rem;
         background: #FDCB2D;
     }
