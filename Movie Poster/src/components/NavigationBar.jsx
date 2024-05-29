@@ -45,6 +45,7 @@ function NavigationBar() {
 	}
 	
 	const linkList = [
+		{ url: '/login', text: '로그인' },
 		{ url: '/signup', text: '회원가입' },
 		{ url: '/list/popular', text: 'Popular' },
 		{ url: '/list/now_playing', text: 'Now Playing' },

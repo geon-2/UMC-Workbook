@@ -25,6 +25,16 @@ const valid_obj = {
             }
         ],
     },
+    id: {
+        empty_msg: '아이디를 입력해주세요!',
+        placeholder: '아이디를 입력해주세요',
+        validList: [
+            {
+                re: /^[a-zA-Z0-9]{4,12}$/,
+                msg: "아이디는 4~12자리의 영어 대소문자와 숫자로 입력해주세요!"
+            }
+        ],
+    },
     email: {
         empty_msg: '이메일을 입력해주세요!',
         placeholder: '이메일을 입력해주세요',
@@ -83,6 +93,11 @@ function SignUpPage() {
             value: '',
             success: true,
             validation_msg: valid_obj['username'].empty_msg,
+        },
+        id: {
+            value: '',
+            success: true,
+            validation_msg: valid_obj['id'].empty_msg,
         },
         email: {
             value: '',
