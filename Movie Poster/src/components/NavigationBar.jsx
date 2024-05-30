@@ -18,7 +18,9 @@ const Header = styled.header`
 
 const Nav = styled.nav`
 	${FlexList};
-	width: 45rem;
+	& > a {
+		margin-right: 1.5rem;
+	}
 `;
 
 const Home = styled(Link)`
@@ -43,10 +45,18 @@ function NavigationBar() {
 	const isactive = (path) => {
 		return location.pathname === path;
 	}
-	
-	const linkList = [
-		{ url: '/login', text: '로그인' },
-		{ url: '/signup', text: '회원가입' },
+
+	const accessToken = localStorage.getItem('accessToken');
+
+	let linkList = [];
+	if (accessToken) {
+		linkList.push({ url: '/logout', text: '로그아웃' });
+	} else {
+		linkList.push({ url: '/login', text: '로그인' });
+		linkList.push({ url: '/signup', text: '회원가입' });
+	}
+
+	linkList = [...linkList, 		
 		{ url: '/list/popular', text: 'Popular' },
 		{ url: '/list/now_playing', text: 'Now Playing' },
 		{ url: '/list/top_rated', text: 'Top Rated' },

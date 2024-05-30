@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import useDebounce from '../hook/useDebounce';
 import Body from '../components/Body';
 import SearchList from '../components/SearchList';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
 const MainText = styled.div`
     height: 30rem;
@@ -52,31 +53,66 @@ const SearchInputForm = styled.form`
     }
 `;
 
-function RootPage () {
+const fetchData = async (apiUrl, params) => {
+    try {
+        const response = await axios.get(apiUrl, params);
+        return response.data.results;
+    } catch (error) {
+        throw new Error('Error fetching data:', error);
+    }
+}
+
+const queryClient = new QueryClient();
+
+const RootPage = () => {
+    return (
+        <QueryClientProvider client={queryClient}>
+            <RootComponent />
+        </QueryClientProvider>
+    )
+}
+
+function RootComponent () {
+    const [name, setName] = useState(localStorage.getItem('name') || '');
     const [searchKey, setSearchKey] = useState('');
     const [searchList, setSearchList] = useState([]);
     const debouncedSearchKey = useDebounce(searchKey, 500);
 
-    useEffect(() => {
-        axios.get('https://api.themoviedb.org/3/search/movie', {
+    const accessToken = localStorage.getItem('accessToken');
+    const { isLoading } = useQuery(
+        'name', 
+        () => fetchData(import.meta.env.VITE_SERVER_URL+'/auth/me', { headers: { Authorization: `Bearer ${accessToken}`}}),
+        {
+
+            enabled: name === '',
+            onSuccess: (data) => {
+                localStorage.setItem('name');
+                setName(data.name);
+            }
+        }
+    )
+
+    useQuery(
+        ['searchList', {debouncedSearchKey}],
+        () => fetchData('https://api.themoviedb.org/3/search/movie', {
             params: {
                 'query': debouncedSearchKey,
                 'language': 'ko',
                 'api_key': import.meta.env.VITE_TMOB_API_KEY,
                 'include_adult': false,
             }
-        })
-        .then(response => {
-            setSearchList(response.data.results);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-    }, [debouncedSearchKey]);
+        }),
+        {
+            enabled: debouncedSearchKey !== '',
+            onSuccess: (data) => {
+                setSearchList(data);
+            }
+        }
+    )
 
     return (
         <Body>
-            <MainText>환영합니다</MainText>
+            <MainText>{isLoading ? '배너에 로딩 중...' : name !== '' ? name+"님 환영합니다" : "환영합니다"} </MainText>
             <MainSection>
                 <p>📽️ Find your movies !</p>
                 <SearchInputForm method='post' onSubmit={(e) => e.preventDefault()}>

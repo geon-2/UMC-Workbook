@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 import Body from '../../components/Body';
 import { FormTitle, Form, InputBox } from '../../style/FormStyles';
 
@@ -30,8 +31,8 @@ const valid_obj = {
         placeholder: '아이디를 입력해주세요',
         validList: [
             {
-                re: /^[a-zA-Z0-9]{4,12}$/,
-                msg: "아이디는 4~12자리의 영어 대소문자와 숫자로 입력해주세요!"
+                re: /^[a-zA-Z0-9]{5,}$/,
+                msg: "아이디는 최소 5자리 이상으로 구성해주세요!"
             }
         ],
     },
@@ -76,12 +77,12 @@ const valid_obj = {
                 msg: "비밀번호는 최대 12자리까지 가능합니다."
             },
             {
-                re: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                msg: "비밀번호는 영어, 숫자, 특수문자를 모두 포함해주세요."
+                re: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()])[a-zA-Z0-9!@#$%^&*()]{4,12}$/,
+                msg: "비밀번호는 대소문자, 특수문자 포함 최소 4자리 이상 12자리 이하로 구성해주세요!"
             }
         ],
     },
-    checkpassword: {
+    passwordCheck: {
         empty_msg: "비밀번호를 다시 입력해주세요!",
         placeholder: '비밀번호 확인',
     }
@@ -114,10 +115,10 @@ function SignUpPage() {
             success: true,
             validation_msg: valid_obj['password'].empty_msg,
         },
-        checkpassword: {
+        passwordCheck: {
             value: '',
             success: true,
-            validation_msg: valid_obj['checkpassword'].empty_msg,
+            validation_msg: valid_obj['passwordCheck'].empty_msg,
         }
     })
     const [success, setSuccess] = useState(false);
@@ -130,8 +131,8 @@ function SignUpPage() {
                 data.success = false;
                 data.validation_msg = valid_obj[idx].empty_msg;
             } else {
-                if (idx == 'checkpassword') {
-                    if (formData['password'].value == formData['checkpassword'].value) {
+                if (idx == 'passwordCheck') {
+                    if (formData['password'].value == formData['passwordCheck'].value) {
                         data.success = true;
                         data.validation_msg = valid_obj[idx].success_msg;
                     } else {
@@ -170,20 +171,33 @@ function SignUpPage() {
                     checkValidation();
 
                     if (success === true) {
-                        console.log({
-                            username: formData['username'].value,
+                        const ServerUrl = import.meta.env.VITE_SERVER_URL+"/auth/signup";
+                        axios.post(ServerUrl, {
+                            name: formData['username'].value,
                             email: formData['email'].value,
                             age: formData['age'].value,
+                            username: formData['id'].value,
                             password: formData['password'].value,
-                            checkpassword: formData['checkpassword'].value
+                            passwordCheck: formData['passwordCheck'].value
+                        }).then(response => {
+                            console.log(response);
+                            alert('회원가입이 완료되었습니다.');
+                            navigate('/login');
+                        }).catch(error => {
+                            if (error.response.status === 409) {
+                                alert('이미 존재하는 아이디입니다.');
+                                document.querySelector('input[name="id"]').focus();
+                            } else {
+                                console.error(error);
+                            }
                         });
-                        navigate('/login')
+                        
                     }
                 }}>
                 {Object.entries(formData).map(([idx, obj]) => {
                     return (
                         <InputBox key={idx}>
-                            <input type={idx == 'password' || idx == 'checkpassword' ? 'password' : 'text'} onChange={(e) => {
+                            <input type={idx == 'password' || idx == 'passwordCheck' ? 'password' : 'text'} onChange={(e) => {
                                 obj.value = e.target.value;
                                 setFormData({...formData});
                                 checkValidation();

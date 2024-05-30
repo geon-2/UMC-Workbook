@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Body from "../../components/Body";
 import { FormTitle, Form, InputBox } from "../../style/FormStyles";
 
@@ -27,6 +29,7 @@ function LoginPage() {
             validation_msg: validObj['password'].empty_msg,
         },
     });
+    const navigate = useNavigate();
 
     const checkValidation = function () {
         let all_success = true;
@@ -52,6 +55,21 @@ function LoginPage() {
             <Form method="post" onSubmit={(e) => {
                 e.preventDefault();
                 checkValidation();
+                
+                if (success === true) {
+                    const ServerUrl = import.meta.env.VITE_SERVER_URL+"/auth/login";
+                    axios.post(ServerUrl, {
+                        username: formData['id'].value,
+                        password: formData['password'].value,
+                    })
+                    .then(response => {
+                        localStorage.setItem('accessToken', response.data.token);
+                        navigate('/')
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+                }
             }}>
                 {Object.entries(formData).map(([idx, obj]) => {
                     return (

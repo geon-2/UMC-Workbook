@@ -8,12 +8,12 @@ import PosterPage from './routes/movie/poster-page';
 import MovieDetailPage from './routes/movie/movie-detail-page';
 import SignUpPage from './routes/member/signup-page';
 import LoginPage from './routes/member/login-page';
+import LogoutHandler from './routes/member/logout';
 
 const routes = [
     {
         path: '/',
         element: <RootPage />,
-		errorElement: <ErrorPage />,
     },
     {
         path: '/list/:sortBy',
@@ -31,6 +31,10 @@ const routes = [
         path: '/login',
         element: <LoginPage />,
     },
+    {
+        path: '/logout',
+        element: <LogoutHandler />
+    }
 ];
 
 const router = createBrowserRouter(routes);
