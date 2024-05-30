@@ -112,7 +112,7 @@ function RootComponent () {
 
     return (
         <Body>
-            <MainText>{isLoading ? '배너에 로딩 중...' : name !== '' ? name+"님 환영합니다" : "환영합니다"} </MainText>
+            <MainText>{name === '' ? "환영합니다" : isLoading ? '배너에 로딩 중...' : name+"님 환영합니다"} </MainText>
             <MainSection>
                 <p>📽️ Find your movies !</p>
                 <SearchInputForm method='post' onSubmit={(e) => e.preventDefault()}>
