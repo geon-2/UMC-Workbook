@@ -18,7 +18,7 @@ const Header = styled.header`
 
 const Nav = styled.nav`
 	${FlexList};
-	width: 40rem;
+	width: 45rem;
 `;
 
 const Home = styled(Link)`
