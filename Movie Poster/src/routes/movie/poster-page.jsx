@@ -23,7 +23,7 @@ const SpinLoader = styled.div`
     border-radius: 50%;
     width: 5rem;
     height: 5rem;
-    margin: 30rem auto;
+    margin: 2rem auto;
     animation: spin 1s linear infinite;
 
     @keyframes spin {
@@ -92,7 +92,7 @@ function PosterComponent({ sortBy }) {
     const observer = useRef(null);
     const [page, setPage] = useState(1);
     const [movies, setMovies] = useState([]);
-    const { isLoading, isError, error, data, isPreviousData, refetch } = useQuery(
+    const { isLoading, isError, error, data, isPreviousData, refetch, isFetching } = useQuery(
         ['movies', {page, sortBy}],
         () => fetchData(sortBy, page),
         {
@@ -169,7 +169,7 @@ function PosterComponent({ sortBy }) {
                             <button type='button' onClick={() => setPage(prev => (!isPreviousData && data.hasMore ? prev + 1 : prev))} disabled={isPreviousData || !data.hasMore}>&gt;</button>
                         </Pagination>
                     }
-                    {sortBy == 'now_playing' && data.hasMore && <div id="observer" />}
+                    {sortBy == 'now_playing' && data.hasMore && isFetching ? <SpinLoader /> : <div id="observer" />}
                 </>
             )}
         </Body>
