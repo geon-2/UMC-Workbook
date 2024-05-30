@@ -11,7 +11,12 @@ const DetailCover = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
+
+    @media (max-width: 768px) {
+        display: block;
+        height: calc(120vh - 5rem);
+        padding-bottom: 10rem;
+    }
 `
 
 const DetailBlock = styled.div`
@@ -20,6 +25,12 @@ const DetailBlock = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: 768px) {
+        display: block;
+        width: 100%;
+        height: 50%;
+    }
 `
 
 const DetailImage = styled.div`
@@ -32,6 +43,13 @@ const DetailImage = styled.div`
         max-width: 100%;
         max-height: 100%;
     }
+
+    @media (max-width: 768px) {
+        padding-top: 10rem;
+        width: 100%;
+        height: 100%;
+        margin-bottom: 10rem;
+    }
 `
 const DetailInfo = styled.div`
     width: 60%;
@@ -39,6 +57,7 @@ const DetailInfo = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: #fff;
 
     & > :not(h1, p) {
         margin-bottom: 4rem;
@@ -67,6 +86,12 @@ const DetailInfo = styled.div`
     & > p {
         font-size: 1.4rem;
         line-height: 1.8;
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
+        padding: 0 5rem;
+        text-align: center;
     }
 `
 
@@ -169,36 +194,37 @@ function MovieDetailPage () {
     return (
         <Body bgImage={"https://image.tmdb.org/t/p/w500"+movie.backdrop_path}>
             {isLoading ? (<LoadingMsg>데이터를 받아오는 중입니다.</LoadingMsg>) : (
-                <DetailCover>
-                    <DetailBlock>
-                        <DetailImage>
-                            <img src={"https://image.tmdb.org/t/p/w500"+movie.poster_path} alt={movie.title} />
-                        </DetailImage>
-                        <DetailInfo>
-                            <h1>{movie.title}</h1>
-                            <h2>
-                                <span>평점</span>
-                                <span>{"⭐️".repeat(~~movie.vote_average)}</span>
-                            </h2>
-                            <h3><span>개봉일</span>{movie.release_date}</h3>
-                            <h4>줄거리</h4>
-                            <p>{movie.overview || "TMDB에서 제공하는 API에 상세 줄거리 정보가 없습니다."}</p>
-                        </DetailInfo>
-                    </DetailBlock>
-                    
-                </DetailCover>
+                <>
+                    <DetailCover>
+                        <DetailBlock>
+                            <DetailImage>
+                                <img src={"https://image.tmdb.org/t/p/w500"+movie.poster_path} alt={movie.title} />
+                            </DetailImage>
+                            <DetailInfo>
+                                <h1>{movie.title}</h1>
+                                <h2>
+                                    <span>평점</span>
+                                    <span>{"⭐️".repeat(~~movie.vote_average)}</span>
+                                </h2>
+                                <h3><span>개봉일</span>{movie.release_date}</h3>
+                                <h4>줄거리</h4>
+                                <p>{movie.overview || "TMDB에서 제공하는 API에 상세 줄거리 정보가 없습니다."}</p>
+                            </DetailInfo>
+                        </DetailBlock>
+                    </DetailCover>
+                    <CreditCover>
+                        <h2>출연진 및 제작진</h2>
+                        <CreditList>                    
+                            {credits.cast.map((credit, index) => (
+                                <Credit key={index} person_id={credit.id} />
+                            ))}
+                            {credits.crew.map((credit, index) => (
+                                <Credit key={index} person_id={credit.id} />
+                            ))}
+                        </CreditList>
+                    </CreditCover>
+                </>
             )}
-            <CreditCover>
-                <h2>출연진 및 제작진</h2>
-                <CreditList>                    
-                    {credits.cast.map((credit, index) => (
-                        <Credit key={index} person_id={credit.id} />
-                    ))}
-                    {credits.crew.map((credit, index) => (
-                        <Credit key={index} person_id={credit.id} />
-                    ))}
-                </CreditList>
-            </CreditCover>
         </Body>
     )
 }

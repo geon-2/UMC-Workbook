@@ -15,6 +15,12 @@ const PosterList = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
     grid-gap: 2rem;
     overflow-y: scroll;
+
+    @media (max-width: 700px) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 `
 
 const SpinLoader = styled.div`

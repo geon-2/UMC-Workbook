@@ -29,6 +29,12 @@ const Section = styled.section`
         position: relative;
         z-index: 2;
     }
+
+    @media (max-width: 768px) {
+        &:after {
+            background: none;
+        }
+    }
 `
 
 function Body ({ bgImage, children }) {

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const FlexList = `
 	display: flex;
@@ -8,7 +9,7 @@ const FlexList = `
 `;
 
 const Header = styled.header`
-    	${FlexList}
+    ${FlexList}
 	width: 100%;
 	height: 5rem;
 	background: #171B39;
@@ -17,9 +18,49 @@ const Header = styled.header`
 `;
 
 const Nav = styled.nav`
-	${FlexList};
-	& > a {
-		margin-right: 1.5rem;
+	& > .nav-icon {
+		display: none;
+	}
+
+	& > ul {
+		${FlexList};
+
+		& > li {
+			margin-right: 1.5rem;
+		}
+	}
+
+	@media (max-width: 768px) {
+		& > .nav-icon {
+			display: block;
+			background: transperent;
+			border: none;
+		}
+
+		& > ul {
+			display: block;
+			width: 100vw;
+			position: fixed;
+			top: 5rem;
+			right: -100vw;
+			height: calc(100vh - 5rem);
+			box-sizing: border-box;
+			background: #222549;
+			padding: 2rem;
+			transition: right 0.3s;
+			z-index: 1000;
+
+			& > li {
+				margin-bottom: 2rem;
+				& > a {
+					font-size: 1.5rem;
+				}
+			}
+		}
+
+		& > .nav-icon.active + ul {
+			right: 0;
+		}
 	}
 `;
 
@@ -67,7 +108,13 @@ function NavigationBar() {
 		<Header>
 			<Home to="/">UMC Movie</Home>
 			<Nav>
-				{linkList.map((item, index) => <StyledLink key={index} to={item.url} isactive={isactive(item.url)}>{item.text}</StyledLink> )}
+				<button className="nav-icon" onClick={() => {
+					const navIcon = document.querySelector('.nav-icon');
+					navIcon.classList.toggle('active');
+				}}><RxHamburgerMenu size='20' color='#fff' /></button>
+				<ul>
+					{linkList.map((item, index) => <li key={index}><StyledLink to={item.url} isactive={isactive(item.url)}>{item.text}</StyledLink></li> )}
+				</ul>
 			</Nav>
 		</Header>
 	);
