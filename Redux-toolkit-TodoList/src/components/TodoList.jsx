@@ -32,15 +32,17 @@ function TodoList() {
 
     console.log(todoList);
 
+    const todoListView = todoList.map((todo, index) => (
+        <li key={index}>
+            <input type="checkbox" onChange={() => dispatch(complete(todoList[index].id))} checked={todo.complete} />
+            <div>{todo.complete === false ? <>{todo.text}</> : <del>{todo.text}</del>}</div>
+            <button type="button" onClick={() => dispatch(remove(todoList[index].id))}>{trash}</button>
+        </li>
+    ))
+
     return (
         <TodoListStyle>
-            {todoList.map((todo, index) => (
-                <li key={index}>
-                    <input type="checkbox" onChange={() => dispatch(complete(todoList[index].id))} />
-                    <div>{todo.complete === false ? <>{todo.text}</> : <del>{todo.text}</del>}</div>
-                    <button type="button" onClick={() => dispatch(remove(todoList[index].id))}>{trash}</button>
-                </li>
-            ))}
+            {todoListView}
         </TodoListStyle>
     )
 }
