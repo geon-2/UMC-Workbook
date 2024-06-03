@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { ChevronDown, ChevronUp } from './icons';
+import { ChevronDown, ChevronUp } from '../constants/icons';
 
 const PlayInfoContainer = styled.div`
     display: flex;

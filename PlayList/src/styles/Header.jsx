@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { CartIcon } from '../components/icons';
+import { CartIcon } from '../constants/icons';
 
 export const Header = styled.header`
     width: 100%;
